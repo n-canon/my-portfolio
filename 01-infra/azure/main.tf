@@ -2,10 +2,19 @@
 ##################################
 # PROVIDER
 ##################################
-provider "azurerm" {
-}
+#provider "azurerm" {
+#}
+#
+#provider "azuread" {
+#}
 
-provider "azuread" {
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "rg-infra-test-nca"
+    storage_account_name = "stterraformtestnca"
+    container_name       = "tfstatefile"
+    key                  = "dev.terraform.tfstate"
+  }
 }
 
 ##################################
