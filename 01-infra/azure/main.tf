@@ -38,7 +38,7 @@ locals {
 ##################################
 resource "azurerm_resource_group" "rg_nca_data_project" {
   name     = "rg-${var.project_name}-${var.environment}"
-  location = "${var.location}"
+  location = var.location
 }
 
 
@@ -57,7 +57,7 @@ resource "azurerm_storage_account" "storage" {
   is_hsn_enabled = true
 
   tags = {
-    environment = "${var.environment}"
+    environment = var.environment
   }
 }
 
@@ -81,11 +81,11 @@ resource "azurerm_mssql_server" "sql-server" {
   resource_group_name          = azurerm_resource_group.rg_nca_data_project.name
   location                     = azurerm_resource_group.rg_nca_data_project.location
   version                      = "12.0"
-  administrator_login          = "${var.sql_admin_user}"
-  administrator_login_password = "${var.VAR_SQL_ADMIN_PASSWORD}"
+  administrator_login          = var.sql_admin_user
+  administrator_login_password = var.VAR_SQL_ADMIN_PASSWORD
 
     tags = {
-    environment = "${var.environment}"
+    environment = var.environment
   }
 }
 
@@ -98,7 +98,7 @@ resource "azurerm_mssql_database" "sql-database" {
   sku_name     = "S0"
 
   tags = {
-    environment = "${var.environment}"
+    environment = var.environment
   }
 
   lifecycle {
@@ -122,7 +122,7 @@ resource "azurerm_linux_function_app" "function" {
   }
 
   tags = {
-      environment = "${var.environment}"
+      environment = var.environment
   }
 
   site_config {}
@@ -146,7 +146,7 @@ resource "azurerm_key_vault" "keyvault" {
   sku_name = "standard"
 
     tags = {
-    environment = "${var.environment}"
+    environment = var.environment
   }
 }
 
@@ -162,6 +162,6 @@ resource "azurerm_databricks_workspace" "databricks" {
   sku                 = "standard"
 
   tags = {
-    environment = "${var.environment}"
+    environment = var.environment
   }
 }
