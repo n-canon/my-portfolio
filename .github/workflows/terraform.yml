@@ -49,6 +49,7 @@ jobs:
         tf_actions_working_dir: "./01-infra/azure"
         
 
+
     - name: 'Terraform Plan'
       uses: hashicorp/terraform-github-actions@master
       with:
