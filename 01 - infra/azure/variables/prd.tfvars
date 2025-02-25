@@ -1,0 +1,6 @@
+environment = "prd"
+location = "West Europe"
+project_name = "nca-project"
+ad_admin_groupe = "az-developers-prd"
+sql_admin_user = "sa_poc"
+sql_admin_password = "{{var_sql_admin_password}}"
