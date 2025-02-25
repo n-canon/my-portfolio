@@ -76,7 +76,7 @@ resource "azurerm_mssql_server" "sql-server" {
   location                     = azurerm_resource_group.rg_nca_data_project.location
   version                      = "12.0"
   administrator_login          = "${var.sql_admin_user}"
-  administrator_login_password = "${{ secrets.VAR_SQL_ADMIN_PASSWORD }}""
+  administrator_login_password = "${{ secrets.VAR_SQL_ADMIN_PASSWORD }}"
 
     tags = {
     environment = "${var.environment}"
