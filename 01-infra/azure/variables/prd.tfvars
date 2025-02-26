@@ -1,6 +1,6 @@
 environment = "prd"
 location = "West Europe"
 project_name = "ncaproject"
-ad_admin_groupe = "az-developers-prd"
+ad_admin_group = "az-developers-prd"
 sql_admin_user = "sa_poc"
 sql_admin_password = "test"
