@@ -44,7 +44,7 @@ resource "azurerm_resource_group" "rg_nca_data_project" {
 # STORAGE ACCOUNT
 ##################################
 resource "azurerm_storage_account" "storage" {
-  name                     = "st-${var.project_name}-${var.environment}"
+  name                     = "st${var.project_name}${var.environment}"
   resource_group_name      = azurerm_resource_group.rg_nca_data_project.name
   location                 = azurerm_resource_group.rg_nca_data_project.location
   account_kind             = "StorageV2"
@@ -132,7 +132,7 @@ resource "azurerm_linux_function_app" "function" {
 
 
 resource "azurerm_service_plan" "service_plan" {
-  name                = "test-service-plan"
+  name                = "sp-linux-${var.project_name}-${var.environment}"
   location            = azurerm_resource_group.rg_nca_data_project.location
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
 
