@@ -23,7 +23,7 @@ terraform {
 # LOCAL VARIABLES
 ##################################
 locals {
-  secrets= csvdecode(file("${path.module}/secrets/secret.csv"))
+  secrets= csvdecode(file("${path.module}/secrets/secrets.csv"))
 
   containers= csvdecode(file("${path.module}/containers/containers.csv"))
 }
@@ -110,7 +110,7 @@ resource "azurerm_linux_function_app" "function" {
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
   location            = azurerm_resource_group.rg_nca_data_project.location
   storage_account_name       = azurerm_storage_account.storage.name
-  service_plan_id            = null
+  service_plan_id            = azurerm_service_plan.service_plan.id
 
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME" = "python" 
@@ -128,6 +128,15 @@ resource "azurerm_linux_function_app" "function" {
   ]
 }
 
+
+resource "azurerm_service_plan" "service_plan" {
+  name                = "test-service-plan"
+  location            = azurerm_resource_group.rg_nca_data_project.location
+  resource_group_name = azurerm_resource_group.rg_nca_data_project.name
+
+  sku_name = "FC1"
+  os_type  = "Linux"
+}
 ##################################
 # KEYVAULT
 ##################################
