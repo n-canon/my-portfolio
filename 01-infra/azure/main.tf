@@ -61,7 +61,7 @@ resource "azurerm_storage_account" "storage" {
 resource "azurerm_storage_container" "containers" {
   for_each = { for container in local.containers : container["container"] => container}
   name                  = each.value.container
-  storage_account_id    = azurerm_storage_account.example.id
+  storage_account_id    = azurerm_storage_account.storage.id
   container_access_type = "private"
 
   depends_on = [
