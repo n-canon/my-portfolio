@@ -23,9 +23,9 @@ terraform {
 # LOCAL VARIABLES
 ##################################
 locals {
-  secrets= csvdecode(file("/secrets/secret.csv"))
+  secrets= csvdecode(file("${path.module}/secrets/secret.csv"))
 
-  containers= csvdecode(file("/containers/containers.csv"))
+  containers= csvdecode(file("${path.module}/containers/containers.csv"))
 }
 
 
