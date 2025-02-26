@@ -1,14 +1,11 @@
-
 ##################################
 # PROVIDER
 ##################################
 provider "azurerm" {
   features {}
-
 }
 
-provider "azuread" {
-}
+provider "azuread" {}
 
 terraform {
   backend "azurerm" {
@@ -23,45 +20,41 @@ terraform {
 # LOCAL VARIABLES
 ##################################
 locals {
-  secrets= csvdecode(file("${path.module}/secrets/secrets.csv"))
-
-  containers= csvdecode(file("${path.module}/containers/containers.csv"))
+  secrets    = csvdecode(file("${path.module}/secrets/secrets.csv"))
+  containers = csvdecode(file("${path.module}/containers/containers.csv"))
 }
 
-data "azurerm_client_config" "current" {
-}
+data "azurerm_client_config" "current" {}
 
 ##################################
-# RESSOURCE GROUP
+# RESOURCE GROUP
 ##################################
 resource "azurerm_resource_group" "rg_nca_data_project" {
   name     = "rg-${var.project_name}-${var.environment}"
   location = var.location
 }
 
-
 ##################################
 # STORAGE ACCOUNT
 ##################################
 resource "azurerm_storage_account" "storage" {
-  name                     = "st${var.project_name}${var.environment}"
-  resource_group_name      = azurerm_resource_group.rg_nca_data_project.name
-  location                 = azurerm_resource_group.rg_nca_data_project.location
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-  https_traffic_only_enabled = true
-  shared_access_key_enabled = false
-  is_hns_enabled = true
+  name                        = "st${var.project_name}${var.environment}"
+  resource_group_name         = azurerm_resource_group.rg_nca_data_project.name
+  location                    = azurerm_resource_group.rg_nca_data_project.location
+  account_kind                = "StorageV2"
+  account_tier                = "Standard"
+  account_replication_type   = "GRS"
+  https_traffic_only_enabled  = true
+  shared_access_key_enabled  = false
+  is_hns_enabled             = true
 
   tags = {
     environment = var.environment
   }
 }
 
-
 resource "azurerm_storage_container" "containers" {
-  for_each = { for container in local.containers : container["container"] => container}
+  for_each = { for container in local.containers : container["container"] => container }
   name                  = each.value.container
   storage_account_id    = azurerm_storage_account.storage.id
   container_access_type = "private"
@@ -82,7 +75,7 @@ resource "azurerm_mssql_server" "sql_server" {
   administrator_login          = var.sql_admin_user
   administrator_login_password = var.sql_admin_password
 
-    tags = {
+  tags = {
     environment = var.environment
   }
 }
@@ -105,27 +98,27 @@ resource "azurerm_mssql_database" "sql-database" {
 }
 
 ##################################
-# AZURE FONCTION
+# AZURE FUNCTION
 ##################################
 resource "azurerm_linux_function_app" "function" {
-  name                = "func-${var.project_name}-${var.environment}"
-  resource_group_name = azurerm_resource_group.rg_nca_data_project.name
-  location            = azurerm_resource_group.rg_nca_data_project.location
-  storage_account_name       = azurerm_storage_account.storage.name
-  service_plan_id            = azurerm_service_plan.service_plan.id
+  name                     = "func-${var.project_name}-${var.environment}"
+  resource_group_name      = azurerm_resource_group.rg_nca_data_project.name
+  location                 = azurerm_resource_group.rg_nca_data_project.location
+  storage_account_name     = azurerm_storage_account.storage.name
+  service_plan_id          = azurerm_service_plan.service_plan.id
 
   app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME" = "python" 
+    "FUNCTIONS_WORKER_RUNTIME" = "python"
     "AzureWebJobsStorage"      = azurerm_storage_account.storage.primary_connection_string
   }
 
   tags = {
-      environment = var.environment
+    environment = var.environment
   }
 
   site_config {}
 
-    depends_on = [
+  depends_on = [
     azurerm_storage_account.storage
   ]
 }
@@ -134,9 +127,10 @@ resource "azurerm_service_plan" "service_plan" {
   name                = "sp-linux-${var.project_name}-${var.environment}"
   location            = azurerm_resource_group.rg_nca_data_project.location
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
-  sku_name = "FC1"
-  os_type  = "Linux"
+  sku_name            = "FC1"
+  os_type             = "Linux"
 }
+
 ##################################
 # KEYVAULT
 ##################################
@@ -148,18 +142,16 @@ resource "azurerm_key_vault" "keyvault" {
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days  = 7
   purge_protection_enabled    = false
-  sku_name = "standard"
+  sku_name                    = "standard"
 
-    tags = {
+  tags = {
     environment = var.environment
   }
 }
 
-
 ##################################
 # DATABRICKS
 ##################################
-
 resource "azurerm_databricks_workspace" "databricks" {
   name                = "dbw-${var.project_name}-${var.environment}"
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
