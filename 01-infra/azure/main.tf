@@ -50,7 +50,7 @@ resource "azurerm_storage_account" "storage" {
   account_replication_type = "GRS"
   https_traffic_only_enabled = true
   shared_access_key_enabled = false
-  is_hsn_enabled = true
+  is_hns_enabled = true
 
   tags = {
     environment = var.environment
@@ -72,13 +72,13 @@ resource "azurerm_storage_container" "containers" {
 ##################################
 # DATABASE
 ##################################
-resource "azurerm_mssql_server" "sql-server" {
+resource "azurerm_mssql_server" "sql_server" {
   name                         = "sqlsrv-${var.project_name}-${var.environment}"
   resource_group_name          = azurerm_resource_group.rg_nca_data_project.name
   location                     = azurerm_resource_group.rg_nca_data_project.location
   version                      = "12.0"
   administrator_login          = var.sql_admin_user
-  administrator_login_password = var.VAR_SQL_ADMIN_PASSWORD
+  administrator_login_password = var.sql_admin_password
 
     tags = {
     environment = var.environment
@@ -87,7 +87,7 @@ resource "azurerm_mssql_server" "sql-server" {
 
 resource "azurerm_mssql_database" "sql-database" {
   name         = "sqldb-${var.project_name}-${var.environment}"
-  server_id    = azurerm_mssql_server.example.id
+  server_id    = azurerm_mssql_server.sql_server.id
   collation    = "SQL_Latin1_General_CP1_CI_AS"
   license_type = "BasePrice"
   max_size_gb  = 2
@@ -153,8 +153,8 @@ resource "azurerm_key_vault" "keyvault" {
 
 resource "azurerm_databricks_workspace" "databricks" {
   name                = "dbw-${var.project_name}-${var.environment}"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.rg_nca_data_project.name
+  location            = azurerm_resource_group.rg_nca_data_project.location
   sku                 = "standard"
 
   tags = {
