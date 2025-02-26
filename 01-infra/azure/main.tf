@@ -28,6 +28,8 @@ locals {
   containers= csvdecode(file("${path.module}/containers/containers.csv"))
 }
 
+data "azurerm_client_config" "current" {
+}
 
 ##################################
 # RESSOURCE GROUP
