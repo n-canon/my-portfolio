@@ -38,13 +38,13 @@ resource "azurerm_resource_group" "rg_nca_data_project" {
 # STORAGE ACCOUNT
 ##################################
 resource "azurerm_storage_account" "storage" {
-  name                        = "st${var.project_name}${var.environment}"
-  resource_group_name         = azurerm_resource_group.rg_nca_data_project.name
-  location                    = azurerm_resource_group.rg_nca_data_project.location
-  account_kind                = "StorageV2"
-  account_tier                = "Standard"
+  name                       = "st${var.project_name}${var.environment}"
+  resource_group_name        = azurerm_resource_group.rg_nca_data_project.name
+  location                   = azurerm_resource_group.rg_nca_data_project.location
+  account_kind               = "StorageV2"
+  account_tier               = "Standard"
   account_replication_type   = "GRS"
-  https_traffic_only_enabled  = true
+  https_traffic_only_enabled = true
   shared_access_key_enabled  = false
   is_hns_enabled             = true
 
@@ -54,7 +54,7 @@ resource "azurerm_storage_account" "storage" {
 }
 
 resource "azurerm_storage_container" "containers" {
-  for_each = { for container in local.containers : container["container"] => container }
+  for_each              = { for container in local.containers : container["container"] => container }
   name                  = each.value.container
   storage_account_id    = azurerm_storage_account.storage.id
   container_access_type = "private"
@@ -101,11 +101,11 @@ resource "azurerm_mssql_database" "sql-database" {
 # AZURE FUNCTION
 ##################################
 resource "azurerm_linux_function_app" "function" {
-  name                     = "func-${var.project_name}-${var.environment}"
-  resource_group_name      = azurerm_resource_group.rg_nca_data_project.name
-  location                 = azurerm_resource_group.rg_nca_data_project.location
-  storage_account_name     = azurerm_storage_account.storage.name
-  service_plan_id          = azurerm_service_plan.service_plan.id
+  name                 = "func-${var.project_name}-${var.environment}"
+  resource_group_name  = azurerm_resource_group.rg_nca_data_project.name
+  location             = azurerm_resource_group.rg_nca_data_project.location
+  storage_account_name = azurerm_storage_account.storage.name
+  service_plan_id      = azurerm_service_plan.service_plan.id
 
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME" = "python"
