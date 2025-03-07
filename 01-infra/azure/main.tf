@@ -119,7 +119,7 @@ resource "azurerm_linux_function_app" "function" {
   site_config {}
 
   depends_on = [
-    azurerm_storage_account.storage
+    azurerm_storage_account.storage, azurerm_service_plan
   ]
 }
 
