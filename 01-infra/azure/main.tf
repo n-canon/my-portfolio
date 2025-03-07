@@ -134,7 +134,7 @@ resource "azurerm_service_plan" "service_plan" {
   name                = "sp-linux-${var.project_name}-${var.environment}"
   location            = azurerm_resource_group.rg_nca_data_project.location
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
-  sku_name            = "F1"
+  sku_name            = "Y1"
   os_type             = "Linux"
 }
 
