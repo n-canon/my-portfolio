@@ -45,7 +45,7 @@ resource "azurerm_storage_account" "storage" {
   account_tier               = "Standard"
   account_replication_type   = "GRS"
   https_traffic_only_enabled = true
-  shared_access_key_enabled  = false
+  shared_access_key_enabled  = true
   is_hns_enabled             = true
 
   tags = {
