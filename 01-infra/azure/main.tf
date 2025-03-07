@@ -153,7 +153,7 @@ resource "azurerm_key_vault" "keyvault" {
 # DATABRICKS
 ##################################
 resource "azurerm_databricks_workspace" "databricks" {
-  name                = "dbw-${var.project_name}-${var.environment}"
+  name                = "dtb-${var.project_name}-${var.environment}"
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
   location            = azurerm_resource_group.rg_nca_data_project.location
   sku                 = "standard"

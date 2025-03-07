@@ -1,6 +1,6 @@
 environment        = "dvp"
-location           = "West Europe"
+location           = "North Europe"
 project_name       = "ncaproject"
 ad_admin_group     = "az-developers-dvp"
 sql_admin_user     = "sa_poc_test"
-sql_admin_password = "test"
+sql_admin_password = ""
