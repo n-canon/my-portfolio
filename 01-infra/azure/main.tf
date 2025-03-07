@@ -107,6 +107,7 @@ resource "azurerm_linux_function_app" "function" {
   storage_account_name = azurerm_storage_account.storage.name
   service_plan_id      = azurerm_service_plan.service_plan.id
 
+
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME" = "python"
     "AzureWebJobsStorage"      = azurerm_storage_account.storage.primary_connection_string
@@ -116,7 +117,13 @@ resource "azurerm_linux_function_app" "function" {
     environment = var.environment
   }
 
-  site_config {}
+
+
+  site_config {
+    application_stack {
+      python_version = "3.12"
+    }
+  }
 
   depends_on = [
     azurerm_storage_account.storage, azurerm_service_plan.service_plan
@@ -127,7 +134,7 @@ resource "azurerm_service_plan" "service_plan" {
   name                = "sp-linux-${var.project_name}-${var.environment}"
   location            = azurerm_resource_group.rg_nca_data_project.location
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
-  sku_name            = "FC1"
+  sku_name            = "F1"
   os_type             = "Linux"
 }
 
