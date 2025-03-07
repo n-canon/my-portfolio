@@ -32,6 +32,10 @@ data "azurerm_client_config" "current" {}
 resource "azurerm_resource_group" "rg_nca_data_project" {
   name     = "rg-${var.project_name}-${var.environment}"
   location = var.location
+
+    tags = {
+    environment = var.environment
+  }
 }
 
 ##################################
@@ -62,6 +66,7 @@ resource "azurerm_storage_container" "containers" {
   depends_on = [
     azurerm_storage_account.storage
   ]
+  
 }
 
 ##################################
@@ -137,6 +142,10 @@ resource "azurerm_service_plan" "service_plan" {
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
   sku_name            = "Y1"
   os_type             = "Linux"
+
+    tags = {
+    environment = var.environment
+  }
 }
 
 ##################################
@@ -165,6 +174,53 @@ resource "azurerm_databricks_workspace" "databricks" {
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
   location            = azurerm_resource_group.rg_nca_data_project.location
   sku                 = "standard"
+
+  tags = {
+    environment = var.environment
+  }
+}
+
+
+#################################
+# DATA FACTORY
+#################################
+resource "azurerm_data_factory" "datafactory" {
+  name                = "adf-${var.project_name}-${var.environment}"
+  location            = azurerm_resource_group.rg_nca_data_project.location
+  resource_group_name = azurerm_resource_group.rg_nca_data_project.name
+
+  tags = {
+    environment = var.environment
+  }
+}
+
+
+
+#################################
+# EVENT HUB
+#################################
+resource "azurerm_eventhub_namespace" "eventhub" {
+  name                = "evh-${var.project_name}-${var.environment}"
+  location            = azurerm_resource_group.rg_nca_data_project.location
+  resource_group_name = azurerm_resource_group.rg_nca_data_project.name
+  sku                 = "Basic"
+  capacity            = 1
+
+  tags = {
+    environment = var.environment
+  }
+}
+
+
+#################################
+# SERVICE BUS
+#################################
+
+resource "azurerm_servicebus_namespace" "servicebus" {
+  name                = "sb-${var.project_name}-${var.environment}"
+  location            = azurerm_resource_group.rg_nca_data_project.location
+  resource_group_name = azurerm_resource_group.rg_nca_data_project.name
+  sku                 = "Basic"
 
   tags = {
     environment = var.environment
