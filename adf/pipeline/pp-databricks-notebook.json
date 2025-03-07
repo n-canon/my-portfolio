@@ -1,6 +1,21 @@
 {
-	"name": "pp-databricks",
+	"name": "pp-databricks-notebook",
 	"properties": {
+		"activities": [
+			{
+				"name": "Execute notebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.00:10:00",
+					"retry": 2,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": []
+			}
+		],
 		"annotations": []
 	}
 }
