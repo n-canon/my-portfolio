@@ -33,7 +33,7 @@ resource "azurerm_resource_group" "rg_nca_data_project" {
   name     = "rg-${var.project_name}-${var.environment}"
   location = var.location
 
-    tags = {
+  tags = {
     environment = var.environment
   }
 }
@@ -66,7 +66,7 @@ resource "azurerm_storage_container" "containers" {
   depends_on = [
     azurerm_storage_account.storage
   ]
-  
+
 }
 
 ##################################
@@ -143,7 +143,7 @@ resource "azurerm_service_plan" "service_plan" {
   sku_name            = "Y1"
   os_type             = "Linux"
 
-    tags = {
+  tags = {
     environment = var.environment
   }
 }
