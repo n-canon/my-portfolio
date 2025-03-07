@@ -43,11 +43,6 @@ jobs:
         tf_actions_working_dir: "./01-infra/azure"
         args: '-var-file="variables/dvp.tfvars'
 
-    - name: Apply Terraform configuration
-        env:
-          TF_VAR_db_password: ${{ secrets.DB_PASSWORD }}  # Passing the secret as an environment variable
-        run: terraform apply -auto-approve
-
     - name: 'Terraform Validate'
       uses: hashicorp/terraform-github-actions@master
       with:
