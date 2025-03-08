@@ -78,7 +78,7 @@ jobs:
         rg_name: $(terraform output rgname) 
         data_factory_name: $(terraform output adfname) 
         rg_location: $(terraform output rglocation) 
-      run: .\devops\adf\deploy_adf.ps1
+      run: .\01-infra\devops\adf\deploy_adf.ps1
 
 
     #- name: Terraform Apply
