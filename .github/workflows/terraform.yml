@@ -42,18 +42,14 @@ jobs:
 
     - name: 'Terraform Plan'
       id : plan
-      run : terraform plan -detailed-exitcode
-      with:
-        args: '-var-file="variables/dvp.tfvars' 
+      run : terraform plan -detailed-exitcode -var-file="variables/dvp.tfvars"
       env:
         TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master'
       id : apply
-      run : terraform apply
-      with:
-        args: '-var-file="variables/dvp.tfvars'
+      run : terraform apply -var-file="variables/dvp.tfvars"
       env:
         TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
