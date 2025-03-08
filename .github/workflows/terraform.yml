@@ -67,6 +67,7 @@ jobs:
       id : login
       uses: azure/login@v2
       with:
+        enable-AzPSSession: true 
         creds: '{"clientId":"${{ env.AZURE_AD_CLIENT_ID }}","clientSecret":"${{ env.AZURE_AD_CLIENT_SECRET }}","subscriptionId":"${{ env.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ env.AZURE_AD_TENANT_ID }}"}'
 
     - name: 'Deploy ADF'
@@ -78,8 +79,8 @@ jobs:
        data_factory_name: ${{ env.adfname }}
        rg_location: ${{ env.rglocation }}
       with:
-        inlineScript: deploy_adf.ps1
-      working-directory: ./01-infra/devops/adf
+        inlineScript: ./01-infra/devops/adf/deploy_adf.ps1
+        azPSVersion: "latest"
 
   #datafactory:
   #  name: 'Azure data factory'
