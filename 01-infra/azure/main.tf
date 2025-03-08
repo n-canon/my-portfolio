@@ -12,7 +12,7 @@ terraform {
     resource_group_name  = "rg-infra-test-nca"
     storage_account_name = "stterraformtestnca"
     container_name       = "tfstatefile"
-    key                  = "${var.environment}.terraform.tfstate"
+    key                  = "dev.terraform.tfstate"
   }
 }
 
