@@ -55,7 +55,7 @@ jobs:
 
     - name: Terraform Output
       id : output
-      run : terraform output"
+      run : terraform output
 
     - name: 'Deploy ADF'
       shell: pwsh
