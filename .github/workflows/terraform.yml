@@ -64,17 +64,7 @@ jobs:
        rg_name: $(terraform output -raw rg_name)
        data_factory_name: $(terraform output -raw data_factory_name)
        rg_location: $(terraform output -raw rg_location)
-      run: .\01-infra\devops\adf\deploy_adf.ps1
+      run: ./01-infra/devops/adf/deploy_adf.ps1
 
 
-    #- name: Terraform Apply
-    #  if: github.ref == 'refs/heads/prod'
-    #  uses: hashicorp/terraform-github-actions@master
-    #  with:
-    #    tf_actions_version: 0.14.8
-    #    tf_actions_subcommand: 'apply'
-    #    tf_actions_working_dir: "./01-infra/azure"
-    #    args: '-var-file="variables/prd.tfvars'
-    #  env:
-    #    TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
