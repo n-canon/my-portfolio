@@ -12,7 +12,7 @@ terraform {
     resource_group_name  = "rg-infra-test-nca"
     storage_account_name = "stterraformtestnca"
     container_name       = "tfstatefile"
-    key                  = "dev.terraform.tfstate"
+    key                  = "${var.environment}.terraform.tfstate"
   }
 }
 
@@ -173,7 +173,7 @@ resource "azurerm_databricks_workspace" "databricks" {
   name                = "dtb-${var.project_name}-${var.environment}"
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
   location            = azurerm_resource_group.rg_nca_data_project.location
-  sku                 = "standard"
+  sku                 = "trial"
 
   tags = {
     environment = var.environment
