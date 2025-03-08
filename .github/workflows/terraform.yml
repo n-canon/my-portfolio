@@ -71,31 +71,15 @@ jobs:
       env:
         TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
-  adf:
-    name: 'Azure Data factory'
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-
-    runs-on: ubuntu-latest
-    environment: dvp
-
-    defaults:
-      run:
-        shell: pwsh
-
-      steps:
-        - uses: actions/checkout@v2
-        - name: 'Deploy ADF'
-          shell: pwsh
-          env: 
-            adf_root: "./adf"
-            rg_name: $(terraform output rgname) 
-            data_factory_name: $(terraform output adfname) 
-            rg_location: $(terraform output rglocation) 
-          run: ./devops/adf/deploy_adf.ps1
+    - name: 'Deploy ADF'
+      uses: actions/checkout@v2
+      shell: pwsh
+      env: 
+        adf_root: "./adf"
+        rg_name: $(terraform output rgname) 
+        data_factory_name: $(terraform output adfname) 
+        rg_location: $(terraform output rglocation) 
+      run: ./devops/adf/deploy_adf.ps1
 
 
     #- name: Terraform Apply
