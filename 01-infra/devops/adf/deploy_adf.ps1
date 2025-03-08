@@ -5,9 +5,9 @@ Install-Module -Name azure.datafactory.tools -Scope CurrentUser
 Import-Module -Name azure.datafactory.tools
 
 Publish-AdfV2FromJson 
-   -RootFolder            $Env:adf_root
-   -ResourceGroupName     $Env:rg_name
-   -DataFactoryName       $Env:data_factory_name
-   -Location              $Env:rg_location
+   -RootFolder            $env:adf_root
+   -ResourceGroupName     $env:rg_name
+   -DataFactoryName       $env:data_factory_name
+   -Location              $env:rg_location
 
 Set-PSRepository -Name 'PSGallery' -InstallationPolicy Untrusted

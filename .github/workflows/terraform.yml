@@ -55,34 +55,13 @@ jobs:
 
     - name: Terraform Output
       id : output
-      run : terraform output
+      run : | 
+        terraform_outputs=$(terraform output -json)
 
-  datafactory:
-    name: 'Azure data factory'
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-
-    runs-on: ubuntu-latest
-    environment: dvp
-
-    defaults:
-      run:
-        shell: pwsh
-
-    steps:
-    - uses: actions/checkout@v4
-    - uses: hashicorp/setup-terraform@v3
-
-    - name: Terraform State
-      id : state
-      run : terraform state list
-
-    - name: Terraform Output
-      id : output
-      run : terraform output
+        for key in $(echo $terraform_outputs | jq -r 'keys[]'); do
+        value=$(echo $terraform_outputs | jq -r ".\"$key\".value")
+        echo "$key=$value" >> $GITHUB_ENV
+        done
 
     - name: 'Deploy ADF'
       env: 
@@ -90,7 +69,42 @@ jobs:
        rg_name: $(terraform output -raw rg_name)
        data_factory_name: $(terraform output -raw data_factory_name)
        rg_location: $(terraform output -raw rg_location)
-      run: ./01-infra/devops/adf/deploy_adf.ps1
+      run: pwsh ./01-infra/devops/adf/deploy_adf.ps1
+
+  #datafactory:
+  #  name: 'Azure data factory'
+  #  env:
+  #    ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+  #    ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+  #    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  #    ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+#
+  #  runs-on: ubuntu-latest
+  #  environment: dvp
+#
+  #  defaults:
+  #    run:
+  #      shell: pwsh
+#
+  #  steps:
+  #  - uses: actions/checkout@v4
+  #  - uses: hashicorp/setup-terraform@v3
+#
+  #  - name: Terraform State
+  #    id : state
+  #    run : terraform state list
+#
+  #  - name: Terraform Output
+  #    id : output
+  #    run : terraform output
+#
+  #  - name: 'Deploy ADF'
+  #    env: 
+  #     adf_root: "./adf"
+  #     rg_name: $(terraform output -raw rg_name)
+  #     data_factory_name: $(terraform output -raw data_factory_name)
+  #     rg_location: $(terraform output -raw rg_location)
+  #    run: ./01-infra/devops/adf/deploy_adf.ps1
 
 
 
