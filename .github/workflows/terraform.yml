@@ -71,8 +71,7 @@ jobs:
       env:
         TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
-jobs:
-  build:
+  adf:
     name: 'Azure Data factory'
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
