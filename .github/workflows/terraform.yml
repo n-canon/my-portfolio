@@ -62,14 +62,22 @@ jobs:
         value=$(echo $terraform_outputs | jq -r ".\"$key\".value")
         echo "$key=$value" >> $GITHUB_ENV
         done
+    
+    - name : Az login
+      id : login
+      uses: azure/login@v2
+      with:
+        creds: '{"clientId":"${{ env.AZURE_AD_CLIENT_ID }}","clientSecret":"${{ env.AZURE_AD_CLIENT_SECRET }}","subscriptionId":"${{ env.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ env.AZURE_AD_TENANT_ID }}"}'
 
     - name: 'Deploy ADF'
+      id : adfdeploy
+      uses : azure/powershell@v2
       env: 
        adf_root: "./adf"
        rg_name:  ${{ env.rgname }}
        data_factory_name: ${{ env.adfname }}
        rg_location: ${{ env.rglocation }}
-      run: pwsh deploy_adf.ps1
+      run: deploy_adf.ps1
       working-directory: ./01-infra/devops/adf
 
   #datafactory:
