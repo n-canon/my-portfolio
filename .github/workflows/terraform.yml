@@ -71,6 +71,10 @@ jobs:
     - uses: actions/checkout@v4
     - uses: hashicorp/setup-terraform@v3
 
+    - name: Terraform State
+      id : output
+      run : terraform state list
+
     - name: Terraform Output
       id : output
       run : terraform output
