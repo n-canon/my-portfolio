@@ -72,7 +72,7 @@ jobs:
     - uses: hashicorp/setup-terraform@v3
 
     - name: Terraform State
-      id : output
+      id : state
       run : terraform state list
 
     - name: Terraform Output
