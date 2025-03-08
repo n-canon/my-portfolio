@@ -66,7 +66,8 @@ jobs:
     - name: 'Deploy ADF'
       env: 
        adf_root: "./adf"
-      run: pwsh ./01-infra/devops/adf/deploy_adf.ps1
+      run: pwsh deploy_adf.ps1
+      working-directory: ./01-infra/devops/adf
 
   #datafactory:
   #  name: 'Azure data factory'
