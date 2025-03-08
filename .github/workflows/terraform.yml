@@ -72,7 +72,6 @@ jobs:
         TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
     - name: 'Deploy ADF'
-      uses: actions/checkout@v2
       shell: pwsh
       env: 
         adf_root: "./adf"
