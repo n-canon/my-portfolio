@@ -66,9 +66,9 @@ jobs:
     - name: 'Deploy ADF'
       env: 
        adf_root: "./adf"
-       rg_name:  ${{ env.rg_name }}
-       data_factory_name: ${{ env.data_factory_name }}
-       rg_location: ${{ env.rg_location }}
+       rg_name:  ${{ env.rgname }}
+       data_factory_name: ${{ env.datafactoryname }}
+       rg_location: ${{ env.rglocation }}
       run: pwsh deploy_adf.ps1
       working-directory: ./01-infra/devops/adf
 
