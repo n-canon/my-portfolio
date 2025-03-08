@@ -71,13 +71,23 @@ jobs:
       env:
         TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
+    - name: 'Terraform Output'
+      id: terraform
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.14.8
+        tf_actions_subcommand: 'output'
+        tf_actions_working_dir: './01-infra/azure'
+    - name: 'Use Terraform Output'
+      run: echo ${{ steps.terraform.outputs.tf_actions_output  }}
+
     - name: 'Deploy ADF'
       shell: pwsh
       env: 
         adf_root: "./adf"
-        rg_name: $(terraform output rgname) 
-        data_factory_name: $(terraform output adfname) 
-        rg_location: $(terraform output rglocation) 
+        rg_name: $(echo ${{ steps.terraform.outputs.tf_actions_output }} | jq -r '.rg_name.value.name')
+        data_factory_name: $(echo ${{ steps.terraform.outputs.tf_actions_output }} | jq -r '.data_factory_name.value.name')
+        rg_location: $(echo ${{ steps.terraform.outputs.tf_actions_output }} | jq -r '.rg_location.value.name')
       run: .\01-infra\devops\adf\deploy_adf.ps1
 
 
