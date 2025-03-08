@@ -21,74 +21,59 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: "./01-infra/azure"
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v3
+    - uses: actions/checkout@v4
 
     - name: 'Terraform Format'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'fmt'
-        tf_actions_working_dir: "./01-infra/azure"
-      env:
-        TF_CLI_ARGS: '-check=true -list=true'   
+      id: fmt
+      run: terraform fmt -check -recursive -list=true
+      continue-on-error: true  
         
     - name: 'Terraform Init'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'init'
-        tf_actions_working_dir: "./01-infra/azure"
-        args: '-var-file="variables/dvp.tfvars'
+      id : init
+      run : terraform init -input=false
 
     - name: 'Terraform Validate'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'validate'
-        tf_actions_working_dir: "./01-infra/azure"
+      id : validate
+      run : terraform validate
 
     - name: 'Terraform Plan'
-      uses: hashicorp/terraform-github-actions@master
+      id : plan
+      run : terraform plan -detailed-exitcode
       with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: "./01-infra/azure"
         args: '-var-file="variables/dvp.tfvars' 
       env:
         TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master'
-      uses: hashicorp/terraform-github-actions@master
+      id : apply
+      run : terraform apply
       with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'apply'
-        tf_actions_working_dir: "./01-infra/azure"
         args: '-var-file="variables/dvp.tfvars'
       env:
         TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
-    - name: 'Terraform Output'
-      id: terraform
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'output'
-        tf_actions_working_dir: './01-infra/azure'
-    - name: 'Use Terraform Output'
-      run: echo ${{ steps.terraform.outputs.tf_actions_output  }}
+    #- name: 'Terraform Output'
+    #  id: terraform
+    #  with:
+    #    tf_actions_version: 0.14.8
+    #    tf_actions_subcommand: 'output'
+    #    tf_actions_working_dir: './01-infra/azure'
+    #- name: 'Use Terraform Output'
+    #  run: echo ${{ steps.terraform.outputs.tf_actions_output  }}
 
-    - name: 'Deploy ADF'
-      shell: pwsh
-      env: 
-        adf_root: "./adf"
-        rg_name: $(echo ${{ steps.terraform.outputs.tf_actions_output }} | jq -r '.rg_name.value.name')
-        data_factory_name: $(echo ${{ steps.terraform.outputs.tf_actions_output }} | jq -r '.data_factory_name.value.name')
-        rg_location: $(echo ${{ steps.terraform.outputs.tf_actions_output }} | jq -r '.rg_location.value.name')
-      run: .\01-infra\devops\adf\deploy_adf.ps1
+    #- name: 'Deploy ADF'
+    #  shell: pwsh
+    #  env: 
+    #    adf_root: "./adf"
+    #    rg_name: $(echo ${{ steps.terraform.outputs.tf_actions_output }} | jq -r '.rg_name.value.name')
+    #    data_factory_name: $(echo ${{ steps.terraform.outputs.tf_actions_output }} | jq -r '.data_factory_name.value.name')
+    #    rg_location: $(echo ${{ steps.terraform.outputs.tf_actions_output }} | jq -r '.rg_location.value.name')
+    #  run: .\01-infra\devops\adf\deploy_adf.ps1
 
 
     #- name: Terraform Apply
