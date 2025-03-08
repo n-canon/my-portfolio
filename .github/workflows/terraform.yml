@@ -66,9 +66,6 @@ jobs:
     - name: 'Deploy ADF'
       env: 
        adf_root: "./adf"
-       rg_name: $(terraform output -raw rg_name)
-       data_factory_name: $(terraform output -raw data_factory_name)
-       rg_location: $(terraform output -raw rg_location)
       run: pwsh ./01-infra/devops/adf/deploy_adf.ps1
 
   #datafactory:
