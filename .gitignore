@@ -1,2 +1,5 @@
 /data
 /airflow_env
+__blobstorage*
+__queue*
+__azurite*

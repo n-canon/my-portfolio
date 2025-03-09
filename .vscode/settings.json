@@ -1,9 +1,9 @@
 {
-    "azureFunctions.deploySubpath": "applications/functions",
+    "azureFunctions.deploySubpath": "applications/AzureFunctions",
     "azureFunctions.scmDoBuildDuringDeployment": true,
     "azureFunctions.projectLanguage": "Python",
     "azureFunctions.projectRuntime": "~4",
     "debug.internalConsoleOptions": "neverOpen",
     "azureFunctions.projectLanguageModel": 2,
-    "azureFunctions.projectSubpath": "applications/functions"
+    "azureFunctions.projectSubpath": "applications/AzureFunctions"
 }
