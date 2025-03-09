@@ -14,3 +14,8 @@ output "rglocation" {
   description = "Location value"
   value       = azurerm_resource_group.rg_nca_data_project.location
 }
+
+output "functionname" {
+  description = "Function name"
+  value       = azurerm_linux_function_app.function.name
+}

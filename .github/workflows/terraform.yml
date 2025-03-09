@@ -82,6 +82,13 @@ jobs:
         inlineScript: ./01-infra/devops/adf/deploy_adf.ps1
         azPSVersion: "latest"
 
+    - name: 'Run the Azure Functions action'
+      uses: Azure/functions-action@v1
+      id: deploy-to-function-app
+      with:
+        app-name: ${{ env.functionname }}
+        package: './applications/AzureFunctions' 
+
   #datafactory:
   #  name: 'Azure data factory'
   #  env:
