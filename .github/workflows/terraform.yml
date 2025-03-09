@@ -99,7 +99,7 @@ jobs:
        rg_location: ${{ env.rglocation }}
       with:
         inlineScript: | 
-          az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src " ${{ github.workspace }}/affunctions.zip"
+          az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src "${{ github.workspace }}/affunctions.zip"
         azPSVersion: "latest"
 
  #  - name: 'Run the Azure Functions action'
