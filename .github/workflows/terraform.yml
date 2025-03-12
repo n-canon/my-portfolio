@@ -69,8 +69,7 @@ jobs:
       shell : pwsh
       env: 
        kvname:  ${{ env.kvname }}
-      with: 
-        inlineScript: ./01-infra/devops/keyvault/deploy_secrets.ps1
+      run: pwsh ./01-infra/devops/keyvault/deploy_secrets.ps1
 
 
     - name: 'Deploy ADF'
