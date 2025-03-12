@@ -1,7 +1,10 @@
+Connect-AzAccount
+
 $secrets = Import-CSV -Path "01-infra/azure/secrets/secrets.csv"
 $secrets
 
 $lst_keyvault_secrets = (Get-AzKeyVaultSecret -VaultName "$env:kvname").Name
+
 For($i=0 ; $i -lt $secrets.Length; $i++) 
 { 
     if ($lst_keyvault_secrets -contains $(secrets.name[$i])) {

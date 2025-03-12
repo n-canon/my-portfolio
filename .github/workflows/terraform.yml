@@ -66,12 +66,10 @@ jobs:
 
     - name: 'Deploy secrets'
       id : secretsdeploy
-      uses : azure/powershell@v2
+      shell : pwsh
       env: 
        kvname:  ${{ env.kvname }}
-      with:
-        inlineScript: ./01-infra/devops/keyvault/deploy_secrets.ps1
-        azPSVersion: "latest"
+      run: .\01-infra\devops\keyvault\deploy_secrets.ps1
 
 
     - name: 'Deploy ADF'
