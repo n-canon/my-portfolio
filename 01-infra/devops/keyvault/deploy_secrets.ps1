@@ -1,8 +1,10 @@
 Connect-AzAccount
 
-$secrets = Import-CSV -Path "01-infra\azure\secrets\secrets.csv"
+$secrets = Import-CSV -Path "./01-infra/azure/secrets/secrets.csv"
 $secrets
 
+# le contraire doit être fait : en fonction de la liste de secret dans le keyvault, mettre à jour où les supprimer si ils sont
+#pas dans le csv
 $lst_keyvault_secrets = (Get-AzKeyVaultSecret -VaultName "$env:kvname").Name
 
 For($i=0 ; $i -lt $secrets.Length; $i++) 
