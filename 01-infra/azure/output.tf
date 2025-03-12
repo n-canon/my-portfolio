@@ -19,3 +19,9 @@ output "functionname" {
   description = "Function name"
   value       = azurerm_linux_function_app.function.name
 }
+
+output "kvname" {
+  description = "KeyVault name"
+  value       = azurerm_key_vault.keyvault.name
+}
+

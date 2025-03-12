@@ -40,12 +40,6 @@ jobs:
       id : validate
       run : terraform validate
 
-    #- name: 'Terraform Plan'
-    #  id : plan
-    #  run : terraform plan -detailed-exitcode -var-file="variables/dvp.tfvars"
-    #  env:
-    #    TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
-
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master'
       id : apply
@@ -69,6 +63,16 @@ jobs:
       with:
         enable-AzPSSession: true 
         creds: '{"clientId":"${{ env.ARM_CLIENT_ID }}","clientSecret":"${{ env.ARM_CLIENT_SECRET }}","subscriptionId":"${{ env.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ env.ARM_TENANT_ID }}"}'
+
+    - name: 'Deploy secrets'
+      id : adfdeploy
+      uses : azure/powershell@v2
+      env: 
+       kvname:  ${{ env.kvname }}
+      with:
+        inlineScript: ./01-infra/devops/keyvault/deploy_secrets.ps1
+        azPSVersion: "latest"
+
 
     - name: 'Deploy ADF'
       id : adfdeploy
@@ -109,40 +113,6 @@ jobs:
         app-name: ${{ env.functionname }}
         package: './applications/AzureFunctions' 
 
-  #datafactory:
-  #  name: 'Azure data factory'
-  #  env:
-  #    ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-  #    ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-  #    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  #    ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-#
-  #  runs-on: ubuntu-latest
-  #  environment: dvp
-#
-  #  defaults:
-  #    run:
-  #      shell: pwsh
-#
-  #  steps:
-  #  - uses: actions/checkout@v4
-  #  - uses: hashicorp/setup-terraform@v3
-#
-  #  - name: Terraform State
-  #    id : state
-  #    run : terraform state list
-#
-  #  - name: Terraform Output
-  #    id : output
-  #    run : terraform output
-#
-  #  - name: 'Deploy ADF'
-  #    env: 
-  #     adf_root: "./adf"
-  #     rg_name: $(terraform output -raw rg_name)
-  #     data_factory_name: $(terraform output -raw data_factory_name)
-  #     rg_location: $(terraform output -raw rg_location)
-  #    run: ./01-infra/devops/adf/deploy_adf.ps1
 
 
 
