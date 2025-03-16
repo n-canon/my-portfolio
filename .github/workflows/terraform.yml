@@ -27,16 +27,6 @@ jobs:
     - uses: hashicorp/setup-terraform@v3
     - uses: actions/checkout@v4
 
-
-    - uses: qetza/replacetokens-action@v1
-      name: 'Replace tokens TST'
-      with:
-        sources: '**/*.csv'
-        variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }}]' 
-        no-telemetry: 'true'
-        recursive: 'true'
-        log-level: 'debug'
-
     - name: 'Terraform Format'
       id: fmt
       run: terraform fmt -check -recursive -list=true
@@ -76,14 +66,13 @@ jobs:
 
 
     - uses: qetza/replacetokens-action@v1
-      name: 'Replace tokens'
+      name: 'Replace tokens TST'
       with:
         sources: '**/*.csv'
         variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }}]' 
         no-telemetry: 'true'
         recursive: 'true'
         log-level: 'debug'
-        token-pattern: 'githubactions'
 
     - name: 'Deploy secrets'
       id : secretsdeploy
