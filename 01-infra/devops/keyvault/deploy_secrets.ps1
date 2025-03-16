@@ -1,9 +1,7 @@
 Install-Module -Name Microsoft.PowerShell.SecretManagement -Repository PSGallery -Force
 Install-Module Az -RequiredVersion 10.0.0 -Scope CurrentUser -Force -AllowClobber
 Import-Module Az -RequiredVersion 10.0.0 -Force
-Install-Module Az.KeyVault -Repository PSGallery -Force
 Import-Module Microsoft.PowerShell.SecretManagement
-Import-Module Az.KeyVault
 Connect-AzAccount
 
 $secrets = Import-CSV -Path "./01-infra/azure/secrets/secrets.csv"
