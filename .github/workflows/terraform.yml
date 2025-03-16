@@ -72,7 +72,6 @@ jobs:
         variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }}]' 
         no-telemetry: 'true'
         recursive: 'true'
-        token-pattern: 'githubactions'
         log-level: 'debug'
 
     - name: 'Deploy secrets'
