@@ -73,6 +73,7 @@ jobs:
         no-telemetry: 'true'
         recursive: 'true'
         log-level: 'debug'
+        token-pattern: 'githubactions'
 
     - name: 'Deploy secrets'
       id : secretsdeploy
