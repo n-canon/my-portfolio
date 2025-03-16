@@ -66,9 +66,9 @@ jobs:
 
 
     - uses: qetza/replacetokens-action@v1
-      name: 'Replace tokens TST'
+      name: 'Replace tokens'
       with:
-        sources: '**/*.csv'
+        sources: '**/*.csv => **/*.csv'  
         variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }}]' 
         no-telemetry: 'true'
         recursive: 'true'
