@@ -4,7 +4,7 @@ Import-Module Az -RequiredVersion 10.0.0 -Force
 Import-Module Microsoft.PowerShell.SecretManagement
 Connect-AzAccount
 
-$secrets = Import-CSV -Path "/secrets/secrets.csv"
+$secrets = Import-CSV -Path "./secrets/secrets.csv"
 $secrets
 
 # le contraire doit être fait : en fonction de la liste de secret dans le keyvault, mettre à jour où les supprimer si ils sont
