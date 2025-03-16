@@ -4,7 +4,7 @@ Import-Module Az -RequiredVersion 10.0.0 -Force
 Import-Module Microsoft.PowerShell.SecretManagement
 Connect-AzAccount
 
-$secrets = Import-CSV -Path "./secrets/secrets.csv"
+$secrets = Import-CSV -Path "./secrets/replace/secrets.csv"
 
 #Creating/updating secrets
 $lst_keyvault_secrets = (Get-AzKeyVaultSecret -Vaultname "$env:kvname").name
