@@ -13,12 +13,12 @@ $lst_keyvault_secrets = (az keyvault secret list --vault-name "$env:kvname").Nam
 
 For($i=0 ; $i -lt $secrets.Length; $i++) 
 { 
-    if ($lst_keyvault_secrets -contains $(secrets.name[$i])) {
-        Write-Output "Creating/Updating $(secrets.name[$i])" 
-        $secret = ConvertTo-SecureString -String $(secrets.value[$i]) -AsPlainText -Force
-        Set-AzKeyVaultSecret -VaultName "$env:kvname" -Name $(secrets.name[$i]) -SecretValue $secret
+    if ($lst_keyvault_secrets -contains $(secrets.name[i])) {
+        Write-Output "Creating/Updating $(secrets.name[i])" 
+        $secret = ConvertTo-SecureString -String $(secrets.value[i]) -AsPlainText -Force
+        Set-AzKeyVaultSecret -VaultName "$env:kvname" -Name $(secrets.name[i]) -SecretValue $secret
     }
     else {
-        Write-Output "Deleting $($secrets.name[$i])"    
+        Write-Output "Deleting $(secrets.name[i])"    
     } 
 }
