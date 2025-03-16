@@ -5,8 +5,9 @@ Import-Module Microsoft.PowerShell.SecretManagement
 Connect-AzAccount
 
 $secrets = Import-CSV -Path "./secrets/secrets.csv"
-$lst_keyvault_secrets = (az keyvault secret list --vault-name "$env:kvname").Name
 
+#Extract keyvault list before creating/updating values
+$lst_keyvault_secrets = (Get-AzKeyVaultSecret -Vaultname "$env:kvname").name
 #Create or update secrets
 For($i=0 ; $i -lt $secrets.Length; $i++) 
 { 
@@ -17,7 +18,8 @@ For($i=0 ; $i -lt $secrets.Length; $i++)
     }
 }
 
-#Delete secrets
+#Extract keyvault list for deleting values
+$lst_keyvault_secrets = (Get-AzKeyVaultSecret -Vaultname "$env:kvname").name
 For($i=0 ; $i -lt $lst_keyvault_secrets.Length; $i++) 
 { 
     if (-not($secrets.name -contains $lst_keyvault_secrets[$i]) ){
