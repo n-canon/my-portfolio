@@ -23,7 +23,7 @@ $lst_keyvault_secrets = (Get-AzKeyVaultSecret -Vaultname "$env:kvname").name
 For($i=0 ; $i -lt $lst_keyvault_secrets.Length; $i++) 
 { 
     if (-not($secrets.name -contains $lst_keyvault_secrets[$i]) ){
-        Write-Output "Deleting  secret $lst_keyvault_secrets[$i])"   
-        Remove-AzKeyVaultSecret -VaultName "$env:kvname" -Name $lst_keyvault_secrets[$i]
+        Write-Output "Deleting secret $lst_keyvault_secrets[$i])"   
+        Remove-AzKeyVaultSecret -VaultName "$env:kvname" -Name $lst_keyvault_secrets[$i] -PassThru -Force
     }
 }
