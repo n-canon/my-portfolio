@@ -5,20 +5,23 @@ Import-Module Microsoft.PowerShell.SecretManagement
 Connect-AzAccount
 
 $secrets = Import-CSV -Path "./secrets/secrets.csv"
-$secrets
-
-# le contraire doit être fait : en fonction de la liste de secret dans le keyvault, mettre à jour où les supprimer si ils sont
-#pas dans le csv
 $lst_keyvault_secrets = (az keyvault secret list --vault-name "$env:kvname").Name
 
+#Create or update secrets
 For($i=0 ; $i -lt $secrets.Length; $i++) 
 { 
-    if (-not($lst_keyvault_secrets -contains $secrets.name[$i])){
-        Write-Output "Creating/Updating $secrets.name[$i])" 
+    if (-not($lst_keyvault_secrets -contains $secrets.name[$i]) ){
+        Write-Output "Creating/Updating secret $secrets.name[$i])" 
         $secret = ConvertTo-SecureString -String $secrets.value[$i] -AsPlainText -Force
         Set-AzKeyVaultSecret -VaultName "$env:kvname" -Name $secrets.name[$i] -SecretValue $secret
     }
-    else {
-        Write-Output "Deleting $secrets.name[$i])"    
-    } 
+}
+
+#Delete secrets
+For($i=0 ; $i -lt $lst_keyvault_secrets.Length; $i++) 
+{ 
+    if (-not($secrets.name -contains $lst_keyvault_secrets[$i]) ){
+        Write-Output "Deleting  secret $lst_keyvault_secrets[$i])"   
+        Remove-AzKeyVaultSecret -VaultName "$env:kvname" -Name $lst_keyvault_secrets[$i]
+    }
 }
