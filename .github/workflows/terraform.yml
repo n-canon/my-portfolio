@@ -73,6 +73,11 @@ jobs:
         enable-AzPSSession: true 
         creds: '{"clientId":"${{ env.ARM_CLIENT_ID }}","clientSecret":"${{ env.ARM_CLIENT_SECRET }}","subscriptionId":"${{ env.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ env.ARM_TENANT_ID }}"}'
 
+    - name: 'Install requirements
+      id : requirements install
+      shell : pwsh
+      run: pwsh ../../01-infra/devops/requirements.ps1
+
     - name: 'Deploy secrets'
       id : secretsdeploy
       shell : pwsh
