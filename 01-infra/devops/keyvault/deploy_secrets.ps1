@@ -4,6 +4,7 @@ Param(
 )
 
 $secrets = Import-CSV -Path $secretFile
+$lst_keyvault_secrets = (Get-AzKeyVaultSecret -Vaultname "$env:kvname").name
 
 #Creating/updating secrets
 For($i=0 ; $i -lt $secrets.Length; $i++) 
