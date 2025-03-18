@@ -30,3 +30,8 @@ variable "sql_admin_password" {
   description = "Password of SQL database Admin user"
   type        = string
 }
+
+variable "developers_group" {
+  description = "Developer group"
+  type        = string
+}

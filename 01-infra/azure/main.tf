@@ -20,7 +20,7 @@ terraform {
 ##################################
 # GROUP
 ##################################
-data "azuredev_group" "dev_group" {
+data "azuread_group" "dev_group" {
   display_name     = var.developers_group
   security_enabled = true
 }
@@ -83,7 +83,7 @@ resource "azurerm_storage_container" "containers" {
 resource "azurerm_role_assignment" "dev_st_access" {
   scope                = azurerm_storage_account.storage.id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = data.azuredev_group.dev_group.object_id
+  principal_id         = data.azuread_group.dev_group.id
 }
 
 
