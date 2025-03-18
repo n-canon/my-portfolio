@@ -25,3 +25,8 @@ output "kvname" {
   value       = azurerm_key_vault.keyvault.name
 }
 
+output "blobname" {
+  description = "Blob storage name"
+  value       = azurerm_storage_account.storage.name
+}
+

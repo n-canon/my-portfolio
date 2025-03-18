@@ -1,0 +1,7 @@
+import azure.functions as func
+from azure_functions.functions.MyFirstFunction import bp
+from azure_functions.functions.functions_exchange_rate import bp_exchange_rate
+
+app = func.FunctionApp(http_auth_level=func.AuthLevel.ADMIN)
+app.register_functions(bp) 
+app.register_functions(bp_exchange_rate) 

@@ -16,6 +16,15 @@ terraform {
   }
 }
 
+
+##################################
+# GROUP
+##################################
+data "azuredev_group" "dev_group" {
+  display_name     = var.developers_group
+  security_enabled = true
+}
+
 ##################################
 # LOCAL VARIABLES
 ##################################
@@ -68,6 +77,15 @@ resource "azurerm_storage_container" "containers" {
   ]
 
 }
+
+## ACCESS
+
+resource "azurerm_role_assignment" "dev_st_access" {
+  scope                = azurerm_storage_account.storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azuredev_group.dev_group.object_id
+}
+
 
 ##################################
 # DATABASE
@@ -148,6 +166,15 @@ resource "azurerm_service_plan" "service_plan" {
   }
 }
 
+## Access #######
+resource "azurerm_role_assignment" "function_to_storage_access" {
+  scope                = azurerm_storage_account.storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_linux_function_app.function.id
+}
+
+
+
 ##################################
 # KEYVAULT
 ##################################
@@ -165,6 +192,18 @@ resource "azurerm_key_vault" "keyvault" {
     environment = var.environment
   }
 }
+
+
+resource "azurerm_key_vault_access_policy" "function_to_keyvault_access" {
+  key_vault_id = azurerm_key_vault.keyvault.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_linux_function_app.function.id
+
+  secret_permissions = [
+    "Get", "List"
+  ]
+}
+
 
 ##################################
 # DATABRICKS

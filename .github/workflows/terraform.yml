@@ -60,7 +60,7 @@ jobs:
     - uses: qetza/replacetokens-action@v1
       name: 'Replace tokens'
       with:
-        sources: '**/*.csv'  
+        sources: '**/*.csv;**/*.json'  
         variables: '[${{ toJSON(vars) }},${{ toJSON(secrets) }}]' 
         no-telemetry: 'true'
         recursive: 'true'
@@ -125,7 +125,7 @@ jobs:
       id: deploy-to-function-app
       with:
         app-name: ${{ env.functionname }}
-        package: './applications/AzureFunctions' 
+        package: './src' 
 
 
 
