@@ -166,6 +166,7 @@ resource "azurerm_service_plan" "service_plan" {
   }
 }
 
+
 ## Access #######
 resource "azurerm_role_assignment" "function_to_storage_access" {
   scope                = azurerm_storage_account.storage.id
@@ -194,14 +195,10 @@ resource "azurerm_key_vault" "keyvault" {
 }
 
 
-resource "azurerm_key_vault_access_policy" "function_to_keyvault_access" {
-  key_vault_id = azurerm_key_vault.keyvault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_linux_function_app.function.principal_id
-
-  secret_permissions = [
-    "Get", "List"
-  ]
+resource "azurerm_role_assignment" "function_to_storage_access" {
+  scope                = azurerm_key_vault.keyvault.id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_linux_function_app.function.id
 }
 
 
