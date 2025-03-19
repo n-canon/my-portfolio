@@ -100,32 +100,32 @@ jobs:
         inlineScript: ./01-infra/devops/adf/deploy_adf.ps1
         azPSVersion: "latest"
 
- #  - name: 'ZIp Azure functions'
- #    id : zipfunc
- #    uses: vimtor/action-zip@v1.2
- #    with:
- #      files: ./applications/AzureFunctions
- #      dest: affunctions.zip
-
- #  - name: 'Deploy Functions'
- #    id : deployfunc
- #    uses : azure/powershell@v2
- #    env: 
- #     adf_root: "./adf"
- #     rg_name:  ${{ env.rgname }}
- #     data_factory_name: ${{ env.adfname }}
- #     rg_location: ${{ env.rglocation }}
- #    with:
- #      inlineScript: | 
- #        az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src "${{ github.workspace }}/affunctions.zip"
- #      azPSVersion: "latest"
-
-    - name: 'Run the Azure Functions action'
-      uses: Azure/functions-action@v1
-      id: deploy-to-function-app
+    - name: 'Zip Azure functions'
+      id : zipfunc
+      uses: vimtor/action-zip@v1.2
       with:
-        app-name: ${{ env.functionname }}
-        package: './src' 
+        files: ./src
+        dest: affunctions.zip
+
+    - name: 'Deploy Functions'
+      id : deployfunc
+      uses : azure/powershell@v2
+      env: 
+       adf_root: "./adf"
+       rg_name:  ${{ env.rgname }}
+       data_factory_name: ${{ env.adfname }}
+       rg_location: ${{ env.rglocation }}
+      with:
+        inlineScript: | 
+          az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src "${{ github.workspace }}/affunctions.zip"
+        azPSVersion: "latest"
+
+   # - name: 'Run the Azure Functions action'
+   #   uses: Azure/functions-action@v1
+   #   id: deploy-to-function-app
+   #   with:
+   #     app-name: ${{ env.functionname }}
+   #     package: './src' 
 
 
 
