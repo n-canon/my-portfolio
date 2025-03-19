@@ -195,7 +195,7 @@ resource "azurerm_key_vault" "keyvault" {
 }
 
 
-resource "azurerm_role_assignment" "function_to_storage_access" {
+resource "azurerm_role_assignment" "function_to_keyvault_access" {
   scope                = azurerm_key_vault.keyvault.id
   role_definition_name = "Contributor"
   principal_id         = azurerm_linux_function_app.function.id
