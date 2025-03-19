@@ -175,7 +175,7 @@ resource "azurerm_service_plan" "service_plan" {
 resource "azurerm_role_assignment" "function_to_storage_access" {
   scope                = azurerm_storage_account.storage.id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_linux_function_app.function.identity[0].principal_id
+  principal_id         = azurerm_linux_function_app.function.id
 }
 
 
@@ -202,7 +202,7 @@ resource "azurerm_key_vault" "keyvault" {
 resource "azurerm_role_assignment" "function_to_keyvault_access" {
   scope                = azurerm_key_vault.keyvault.id
   role_definition_name = "Contributor"
-  principal_id         = azurerm_linux_function_app.function.identity[0].principal_id
+  principal_id         = azurerm_linux_function_app.function.id
 }
 
 
