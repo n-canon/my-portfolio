@@ -5,7 +5,8 @@
     "FUNCTIONS_WORKER_RUNTIME": "python",
     "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
     "Keyvault": "#{KEYVAULT_NAME}#",
-    "BlobStorage": "#{BLOB_STORAGE_NAME}#"
+    "BlobStorage": "#{BLOB_STORAGE_NAME}#",
+    "PYTHON_ENABLE_WORKER_EXTENSIONS": "1"
   },
   "ConnectionStrings": {
     "SQLConnectionString": "<sqlclient-connection-string>"
