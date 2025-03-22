@@ -109,7 +109,7 @@ jobs:
 
     - name: my-artifact  
       id : uploadaf
-      uses: vimtor/upload-artifact@v1.1
+      uses: actions/upload-artifact@v4
       with:  
         path: ${{ github.workspace }}/affunctions.zip
 
