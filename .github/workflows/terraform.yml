@@ -88,18 +88,18 @@ jobs:
       run: pwsh ../../01-infra/devops/keyvault/deploy_secrets.ps1 ./secrets/secrets.csv
 
 
-    - name: 'Deploy ADF'
-      id : adfdeploy
-      uses : azure/powershell@v2
-      env: 
-       adf_root: "./adf"
-       rg_name:  ${{ env.rgname }}
-       data_factory_name: ${{ env.adfname }}
-       rg_location: ${{ env.rglocation }}
-      with:
-        inlineScript: ./01-infra/devops/adf/deploy_adf.ps1
-        azPSVersion: "latest"
-
+    #- name: 'Deploy ADF'
+    #  id : adfdeploy
+    #  uses : azure/powershell@v2
+    #  env: 
+    #   adf_root: "./adf"
+    #   rg_name:  ${{ env.rgname }}
+    #   data_factory_name: ${{ env.adfname }}
+    #   rg_location: ${{ env.rglocation }}
+    #  with:
+    #    inlineScript: ./01-infra/devops/adf/deploy_adf.ps1
+    #    azPSVersion: "latest"
+#
     - name: 'Zip Azure functions'
       id : zipfunc
       uses: vimtor/action-zip@v1.2
