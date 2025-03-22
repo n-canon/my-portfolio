@@ -1,6 +1,6 @@
 import azure.functions as func
 from azure_functions.functions.MyFirstFunction import bp
-from src.azure_functions.functions.Mysecondfunction import bp_exchange_rate
+from azure_functions.functions.Mysecondfunction import bp_exchange_rate
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ADMIN)
 app.register_functions(bp) 
