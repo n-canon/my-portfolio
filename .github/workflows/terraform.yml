@@ -107,9 +107,10 @@ jobs:
         files: ./src
         dest: affunctions.zip
 
-    - uses: actions/upload-artifact@v1.1
+    - name: my-artifact  
+      id : uploadaf
+      uses: actions/upload-artifact@v1.1
       with:  
-        name: my-artifact  
         path: ${{ github.workspace }}/affunctions.zip
 
     - name: 'Deploy Functions'
