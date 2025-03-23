@@ -6,3 +6,5 @@ azure-functions
 azure-keyvault-secrets
 azure-storage-blob
 requests
+azure-identity
+os
