@@ -5,7 +5,7 @@ from shared.infrastructure.keyvault_client import keyvaultClient
 
 bp_exchange_rate = func.Blueprint()
 @bp_exchange_rate.route(route="exchangerate")
-@bp_exchange_rate.function_name(name="Mysecondfunction")     
+@bp_exchange_rate.function_name(name="exchangerate")     
 def exchange_rate_to_blob(req: func.HttpRequest) -> func.HttpResponse:
     
     name = req.params.get('name')
