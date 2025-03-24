@@ -1,9 +1,9 @@
 name: 'Terraform'
 
 on:
-  push:
-    branches:
-    - master
+  #push:
+  #  branches:
+  #  - master
   pull_request:
 
 jobs:
@@ -40,12 +40,12 @@ jobs:
       id : validate
       run : terraform validate
 
-    #- name: Terraform Apply
-    #  if: github.ref == 'refs/heads/master'
-    #  id : apply
-    #  run : terraform apply -auto-approve -var-file="variables/dvp.tfvars"
-    #  env:
-    #    TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/master'
+      id : apply
+      run : terraform apply -auto-approve -var-file="variables/dvp.tfvars"
+      env:
+        TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
     - name: Terraform Output
       id : output
@@ -88,18 +88,18 @@ jobs:
       run: pwsh ../../01-infra/devops/keyvault/deploy_secrets.ps1 ./secrets/secrets.csv
 
 
-    #- name: 'Deploy ADF'
-    #  id : adfdeploy
-    #  uses : azure/powershell@v2
-    #  env: 
-    #   adf_root: "./adf"
-    #   rg_name:  ${{ env.rgname }}
-    #   data_factory_name: ${{ env.adfname }}
-    #   rg_location: ${{ env.rglocation }}
-    #  with:
-    #    inlineScript: ./01-infra/devops/adf/deploy_adf.ps1
-    #    azPSVersion: "latest"
-#
+    - name: 'Deploy ADF'
+      id : adfdeploy
+      uses : azure/powershell@v2
+      env: 
+       adf_root: "./adf"
+       rg_name:  ${{ env.rgname }}
+       data_factory_name: ${{ env.adfname }}
+       rg_location: ${{ env.rglocation }}
+      with:
+        inlineScript: ./01-infra/devops/adf/deploy_adf.ps1
+        azPSVersion: "latest"
+
     - name: 'Zip Azure functions'
       id : zipfunc
       uses: vimtor/action-zip@v1.2
@@ -113,7 +113,7 @@ jobs:
       with:  
         path: ${{ github.workspace }}/affunctions.zip
 
-    - name: 'Install dependencies
+    - name: 'Install python dependencies'
       shell: bash
       run: |
         pushd '../../src'
