@@ -113,44 +113,13 @@ jobs:
       with:  
         path: ${{ github.workspace }}/affunctions.zip
 
-    #- name: 'Deploy Functions'
-    #  id : deployfunc
-    #  uses : azure/powershell@v2
-    #  with:
-    #    inlineScript: | 
-    #      az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src ${{ github.workspace }}/affunctions.zip --verbose
-    #    azPSVersion: "latest"
-
-    #- name: 'Deploy Functions'
-    #  id : deployfunc
-    #  uses : azure/powershell@v2
-    #  with:
-    #    inlineScript: | 
-    #      Publish-AzWebapp -ResourceGroupName ${{ env.rgname }} -Name ${{ env.functionname }} -ArchivePath ${{ github.workspace }}/affunctions.zip
-    #    azPSVersion: "latest"
-
-
-
-    - name: 'Resolve Project Dependencies Using Pip'
+    - name: 'Install dependencies
       shell: bash
       run: |
         pushd '../../src'
         python -m pip install --upgrade pip
         pip install -r requirements.txt --target=".python_packages/lib/site-packages"
         popd
-
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v4
-      with:
-        name: python-app
-        path: |
-          ./src
-
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v4
-      with:
-        name: python-app
-        path: .
 
     - name: 'Deploy to Azure Functions'
       uses: Azure/functions-action@v1
