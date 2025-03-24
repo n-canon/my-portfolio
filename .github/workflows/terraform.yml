@@ -143,7 +143,7 @@ jobs:
       with:
         name: python-app
         path: |
-          .
+          ./src
 
     - name: Download artifact from build job
       uses: actions/download-artifact@v4
