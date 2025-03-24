@@ -40,12 +40,12 @@ jobs:
       id : validate
       run : terraform validate
 
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/master'
-      id : apply
-      run : terraform apply -auto-approve -var-file="variables/dvp.tfvars"
-      env:
-        TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
+    #- name: Terraform Apply
+    #  if: github.ref == 'refs/heads/master'
+    #  id : apply
+    #  run : terraform apply -auto-approve -var-file="variables/dvp.tfvars"
+    #  env:
+    #    TF_VAR_sql_admin_password : ${{ secrets.VAR_SQL_ADMIN_PASSWORD }}
 
     - name: Terraform Output
       id : output
@@ -115,21 +115,10 @@ jobs:
 
     - name: 'Deploy Functions'
       id : deployfunc
-      shell : pwsh
-      run: func azure functionapp publish ${{ env.functionname }}
-      working-directory: ./src
-
-    #- name: 'Deploy Functions'
-    #  id : deployfunc
-    #  uses : azure/powershell@v2
-    #  env: 
-    #     adf_root: "./adf"
-    #     rg_name:  ${{ env.rgname }}
-    #     data_factory_name: ${{ env.adfname }}
-    #     rg_location: ${{ env.rglocation }}
-    #  with:
-    #    inlineScript: | 
-    #      az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src "${{ github.workspace }}/affunctions.zip"
+      uses : azure/powershell@v2
+      with:
+        inlineScript: | 
+          az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src affunctions.zip
 
    # - name: 'Run the Azure Functions action'
    #   uses: Azure/functions-action@v1
