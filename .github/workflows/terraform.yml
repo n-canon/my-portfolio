@@ -127,5 +127,6 @@ jobs:
       with:
         inlineScript: | 
           Publish-AzWebapp -ResourceGroupName ${{ env.rgname }} -Name ${{ env.functionname }} -ArchivePath ${{ github.workspace }}/affunctions.zip
+        azPSVersion: "latest"
 
 
