@@ -30,3 +30,9 @@ output "blobname" {
   value       = azurerm_storage_account.storage.name
 }
 
+
+output "blobconnectionstring" {
+  description = "Blob storage connection string"
+  value       = azurerm_storage_account.storage.primary_connection_string
+  sensitive   = true
+}
