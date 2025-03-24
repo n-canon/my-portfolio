@@ -113,12 +113,19 @@ jobs:
       with:  
         path: ${{ github.workspace }}/affunctions.zip
 
-    - name: 'Deploy Functions'
-      id : deployfunc
-      uses : azure/powershell@v2
-      with:
-        inlineScript: | 
-          az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src ${{ github.workspace }}/affunctions.zip --verbose
-        azPSVersion: "latest"
+    #- name: 'Deploy Functions'
+    #  id : deployfunc
+    #  uses : azure/powershell@v2
+    #  with:
+    #    inlineScript: | 
+    #      az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src ${{ github.workspace }}/affunctions.zip --verbose
+    #    azPSVersion: "latest"
+
+    - name: 'Deploy function'
+      id : deployfunc2
+      shell : pwsh
+      run: | 
+        cd src
+        func azure functionapp publish ${{ env.functionname }}
 
 
