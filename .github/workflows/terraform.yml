@@ -118,7 +118,7 @@ jobs:
       uses : azure/powershell@v2
       with:
         inlineScript: | 
-          az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src ${{ github.workspace }}/affunctions.zip --debug
+          az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src ${{ github.workspace }}/affunctions.zip --verbose
         azPSVersion: "latest"
 
 
