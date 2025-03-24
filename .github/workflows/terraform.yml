@@ -115,12 +115,24 @@ jobs:
 
     - name: 'Deploy Functions'
       id : deployfunc
-      uses : azure/powershell@v2
+      shell : pwsh
       with:
         inlineScript: | 
           func azure functionapp publish ${{ env.functionname }}
         azPSVersion: "latest"
         working-directory: ./src
+
+    #- name: 'Deploy Functions'
+    #  id : deployfunc
+    #  uses : azure/powershell@v2
+    #  env: 
+    #     adf_root: "./adf"
+    #     rg_name:  ${{ env.rgname }}
+    #     data_factory_name: ${{ env.adfname }}
+    #     rg_location: ${{ env.rglocation }}
+    #  with:
+    #    inlineScript: | 
+    #      az functionapp deployment source config-zip -g ${{ env.rgname }} -n ${{ env.functionname }} --src "${{ github.workspace }}/affunctions.zip"
 
    # - name: 'Run the Azure Functions action'
    #   uses: Azure/functions-action@v1
