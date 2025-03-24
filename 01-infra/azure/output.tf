@@ -36,3 +36,10 @@ output "blobconnectionstring" {
   value       = azurerm_storage_account.storage.primary_connection_string
   sensitive   = true
 }
+
+
+output "funcpublishprofile" {
+  description = "Azure function publish profile"
+  value       = azurerm_linux_function_app.function.
+  sensitive   = true
+}
