@@ -37,9 +37,3 @@ output "blobconnectionstring" {
   sensitive   = true
 }
 
-
-output "funcpublishprofile" {
-  description = "Azure function publish profile"
-  value       = azurerm_linux_function_app.function.
-  sensitive   = true
-}
