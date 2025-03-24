@@ -125,7 +125,7 @@ jobs:
       id : deployfunc2
       shell : pwsh
       run: | 
-        cd src
+        cd ./src
         func azure functionapp publish ${{ env.functionname }}
 
 
