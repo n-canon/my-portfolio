@@ -156,6 +156,6 @@ jobs:
       id: deploy-to-function
       with:
         app-name: ${{ env.functionname }}
-        package: './python-app'  
+        package: './src'  
         scm-do-build-during-deployment: true
         enable-oryx-build: true
