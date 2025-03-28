@@ -210,16 +210,16 @@ resource "azurerm_role_assignment" "function_to_keyvault_access" {
 ##################################
 # DATABRICKS
 ##################################
-resource "azurerm_databricks_workspace" "databricks" {
-  name                = "dtb-${var.project_name}-${var.environment}"
-  resource_group_name = azurerm_resource_group.rg_nca_data_project.name
-  location            = azurerm_resource_group.rg_nca_data_project.location
-  sku                 = "trial"
-
-  tags = {
-    environment = var.environment
-  }
-}
+#resource "azurerm_databricks_workspace" "databricks" {
+#  name                = "dtb-${var.project_name}-${var.environment}"
+#  resource_group_name = azurerm_resource_group.rg_nca_data_project.name
+#  location            = azurerm_resource_group.rg_nca_data_project.location
+#  sku                 = "trial"
+#
+#  tags = {
+#    environment = var.environment
+#  }
+#}
 
 
 #################################
