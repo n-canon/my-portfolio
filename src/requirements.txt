@@ -8,3 +8,9 @@ azure-keyvault-secrets
 azure-storage-blob
 requests
 azure-identity
+apache-airflow
+apache-airflow[cncf.kubernetes]
+pandas
+apache-airflow-providers-postgres
+apache-airflow-providers-microsoft-azure
+apache-airflow-providers-microsoft-mssql
