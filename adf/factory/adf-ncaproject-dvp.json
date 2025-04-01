@@ -1,4 +1,9 @@
 {
 	"name": "adf-ncaproject-dvp",
-	"location": "northeurope"
+	"location": "northeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "f8a3c5f8-3b93-4500-b8ff-76632764b0e1",
+		"tenantId": "a6b44d26-1ec0-47da-8292-05cb20a85318"
+	}
 }
