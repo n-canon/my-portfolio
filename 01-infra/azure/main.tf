@@ -239,11 +239,15 @@ resource "azurerm_data_factory" "datafactory" {
   }
 }
 
+data "azuread_service_principal" "data_factory_managed_identity" {
+  object_id = azurerm_data_factory.datafactory.identity.0.principal_id
+}
+
 
 resource "azurerm_role_assignment" "adf_to_function_access" {
   scope                = azurerm_linux_function_app.function.id
   role_definition_name = "Reader"
-  principal_id         = azurerm_data_factory.datafactory.identity[0].principal_id
+  principal_id         = data.azuread_service_principal.data_factory_managed_identity.object_id
   depends_on = [ azurerm_data_factory.datafactory ]
 }
 
