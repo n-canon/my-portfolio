@@ -16,6 +16,8 @@
 				"userProperties": []
 			}
 		],
-		"annotations": []
-	}
+		"annotations": [],
+		"lastPublishTime": "2025-03-29T15:06:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }
