@@ -1,5 +1,5 @@
 {
-	"name": "pp-azure-function",
+	"name": "pp-azure-function-get",
 	"properties": {
 		"activities": [
 			{
@@ -13,9 +13,28 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"functionName": {
+						"value": "@pipeline().parameters.function_name",
+						"type": "Expression"
+					},
+					"method": "GET"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_azure_function",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
+		"parameters": {
+			"function_name": {
+				"type": "string"
+			},
+			"header": {
+				"type": "object"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2025-04-01T19:43:07Z"
 	},
