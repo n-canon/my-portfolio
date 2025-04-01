@@ -30,9 +30,6 @@
 		"parameters": {
 			"function_name": {
 				"type": "string"
-			},
-			"header": {
-				"type": "object"
 			}
 		},
 		"annotations": [],
