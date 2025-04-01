@@ -230,11 +230,21 @@ resource "azurerm_data_factory" "datafactory" {
   location            = azurerm_resource_group.rg_nca_data_project.location
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   tags = {
     environment = var.environment
   }
 }
 
+
+resource "azurerm_role_assignment" "adf_to_function_access" {
+  scope                = azurerm_linux_function_app.function.id
+  role_definition_name = "Reader"
+  principal_id         = azurerm_data_factory.datafactory.identity[0].principal_id
+}
 
 
 #################################
