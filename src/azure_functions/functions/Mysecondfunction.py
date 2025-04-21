@@ -18,12 +18,12 @@ def exchange_rate_to_blob(req: func.HttpRequest) -> func.HttpResponse:
             
             # send request and get response
             url = 'https://v6.exchangerate-api.com/v6/'+exchange_rate_key+'/latest/USD'
-            data = requests.get(url)
+            data = requests.get(url).json()
             filename = 'test3'+datetime.now().strftime("%Y%m%d%H%M%S")+'.json'
             
             #save file to blob storage
             blobClient = blobServiceClient("stncaprojectdvp")
-            blobClient.upload_blob_stream("landing","exchange_rate/"+filename,str(data).encode())
+            blobClient.upload_blob_stream("landing","exchange_rate/"+filename,data)
         except ValueError:
             pass
 
