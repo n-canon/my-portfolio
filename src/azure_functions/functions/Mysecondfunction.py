@@ -1,5 +1,6 @@
 import azure.functions as func
 import requests 
+import json
 from shared.infrastructure.blob_client import blobServiceClient
 from shared.infrastructure.keyvault_client import keyvaultClient
 from datetime import datetime
@@ -23,7 +24,7 @@ def exchange_rate_to_blob(req: func.HttpRequest) -> func.HttpResponse:
             
             #save file to blob storage
             blobClient = blobServiceClient("stncaprojectdvp")
-            blobClient.upload_blob_stream("landing","exchange_rate/"+filename,data)
+            blobClient.upload_blob_stream("landing","exchange_rate/"+filename,json.dumps(data))
         except ValueError:
             pass
 

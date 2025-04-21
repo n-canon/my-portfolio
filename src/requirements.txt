@@ -10,6 +10,7 @@ requests
 azure-identity
 apache-airflow
 apache-airflow[cncf.kubernetes]
+json
 pandas
 apache-airflow-providers-postgres
 apache-airflow-providers-microsoft-azure
