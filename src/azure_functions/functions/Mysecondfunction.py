@@ -2,6 +2,7 @@ import azure.functions as func
 import requests 
 from shared.infrastructure.blob_client import blobServiceClient
 from shared.infrastructure.keyvault_client import keyvaultClient
+from datetime import datetime
 
 bp_exchange_rate = func.Blueprint()
 @bp_exchange_rate.route(route="exchangerate")
@@ -17,11 +18,12 @@ def exchange_rate_to_blob(req: func.HttpRequest) -> func.HttpResponse:
             
             # send request and get response
             url = 'https://v6.exchangerate-api.com/v6/'+exchange_rate_key+'/latest/USD'
-            data = requests.get(url).json()
+            data = requests.get(url)
+            filename = 'test3'+datetime.now().strftime("%Y%m%d%H%M%S")+'.json'
             
             #save file to blob storage
             blobClient = blobServiceClient("stncaprojectdvp")
-            blobClient.upload_blob_stream("landing","exchange_rate/test3.json",str(data).encode())
+            blobClient.upload_blob_stream("landing","exchange_rate/"+filename,str(data).encode())
         except ValueError:
             pass
 
