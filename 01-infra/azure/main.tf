@@ -293,7 +293,7 @@ resource "azurerm_application_insights" "appinsights" {
   location            = azurerm_resource_group.rg_nca_data_project.location
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
   application_type    = "web"
-  workspace_id        = null 
+  workspace_id        = "/subscriptions/78b3c9d9-0eb0-4a3d-9f4e-dffe309ba531/resourceGroups/ai_ai-ncaproject-dvp_40d61530-3537-453c-a940-a63a5a9c05d9_managed/providers/Microsoft.OperationalInsights/workspaces/managed-ai-ncaproject-dvp-ws" 
 
   tags = {
     environment = var.environment
