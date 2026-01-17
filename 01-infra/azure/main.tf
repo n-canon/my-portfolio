@@ -293,6 +293,7 @@ resource "azurerm_application_insights" "appinsights" {
   location            = azurerm_resource_group.rg_nca_data_project.location
   resource_group_name = azurerm_resource_group.rg_nca_data_project.name
   application_type    = "web"
+  workspace_id        = null 
 
   tags = {
     environment = var.environment
